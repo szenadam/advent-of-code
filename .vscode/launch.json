@@ -6,11 +6,11 @@
   "configurations": [
     {
       "name": "Python: Current File",
-      "cwd": "${workspaceFolder}",
       "type": "python",
       "request": "launch",
       "program": "${file}",
-      "console": "externalTerminal",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}\\2020\\day01"
     }
   ]
 }
