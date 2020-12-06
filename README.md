@@ -1,4 +1,4 @@
-# Advent of Code 2019 Solutions
+# Advent of Code Solutions
 
-My solutions for the Advent of Code 2019 challenges.
+My solutions for the Advent of Code challenges.
 <https://adventofcode.com/>
