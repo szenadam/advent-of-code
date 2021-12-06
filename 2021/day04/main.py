@@ -1,25 +1,27 @@
 import numpy as np
-
+import copy
 
 numbers_called = set()
 
 
 def main():
 
-    #input = open('sample_input.txt', 'r')
-    input = open('input.txt', 'r')
+    input = open('sample_input.txt', 'r')
+    #input = open('input.txt', 'r')
 
-    #part_one(input)
-    part_two(input)
+    numbers = get_numbers_from_input(input)
+    boards = get_boards_from_input(input)
+
+    # TODO: part_one should not modify original lists. Should not be using deep copy.
+    part_one(copy.deepcopy(numbers), copy.deepcopy(boards))
+    part_two(copy.deepcopy(numbers), copy.deepcopy(boards.tolist()))
 
     input.close()
 
     return 0
 
 
-def part_two(input):
-    numbers = get_numbers_from_input(input)
-    boards = get_boards_from_input(input).tolist()
+def part_two(numbers, boards):
 
     def check_bingo(board, called_numbers):
         for i in range(5):
@@ -54,7 +56,7 @@ def part_two(input):
     print(get_score(boards[last], numbers[:order[last]]))
 
 
-def part_one(input):
+def part_one(numbers, boards):
 
     def mark_number_on_board(boards, num):
         temp = boards
@@ -81,9 +83,6 @@ def part_one(input):
                 return True
         return False
 
-    numbers = get_numbers_from_input(input)
-    boards = get_boards_from_input(input)
-
     winner_board = []
     last_number = 0
 
@@ -99,7 +98,7 @@ def part_one(input):
 
     s = sum_unmarked_numbers_in_board(winner_board)
 
-    print(f"SCORE: {last_number * s}")
+    print(f"{last_number * s}")
 
 
 def get_numbers_from_input(input):
