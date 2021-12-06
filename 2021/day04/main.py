@@ -1,11 +1,77 @@
 import numpy as np
 
 
+numbers_called = set()
+
+
 def main():
 
     #input = open('sample_input.txt', 'r')
     input = open('input.txt', 'r')
 
+    # part_one(input)
+    part_two(input)
+
+    input.close()
+
+    return 0
+
+
+def part_two(input):
+    numbers = get_numbers_from_input(input)
+    boards = get_boards_from_input(input).tolist()
+
+    order = {}
+
+    for i in range(1, len(numbers)):
+        for j, board in enumerate(boards):
+            if j in order.keys():
+                continue
+
+            if bingo(board, numbers[:i]):
+                order[j] = i
+
+    last = max(order, key=order.get)
+
+    print(get_score(boards[last], numbers[:order[last]]))
+
+
+def bingo(board, called_numbers):
+    for i in range(5):
+        if all(board[i][j] in called_numbers for j in range(5)):
+            return True
+        if all(board[j][i] in called_numbers for j in range(5)):
+            return True
+
+    return False
+
+
+def get_score(board, called_numbers):
+    sum_of_unmarked = 0
+    for i in range(5):
+        for j in range(5):
+            if board[i][j] not in called_numbers:
+                sum_of_unmarked += board[i][j]
+
+    return sum_of_unmarked * called_numbers[-1]  # assume calls isn't longer than it needs to be
+
+
+def last_one_is_winner(boards):
+    if len(boards) == 1 and check_board_for_bingo(boards[0]):
+        return True
+    else:
+        return False
+
+
+def select_winner_boards(boards, winner_boards):
+    for board in boards:
+        is_winner = check_board_for_bingo(board)
+        if is_winner:
+            winner_boards.append(board.tolist())
+    return boards
+
+
+def part_one(input):
     numbers = get_numbers_from_input(input)
     boards = get_boards_from_input(input)
 
@@ -24,13 +90,7 @@ def main():
 
     s = sum_unmarked_numbers_in_board(winner_board)
 
-    # print(winner_board)
-    # print(last_number)
-    # print(s)
     print(f"SCORE: {last_number * s}")
-    input.close()
-
-    return 0
 
 
 def sum_unmarked_numbers_in_board(board):
@@ -95,6 +155,36 @@ def get_boards_from_input(input):
         board.append(row)
         index = index + 1
     return np.array(boards)
+
+
+class Board:
+    def __init__(self, block):
+        rows = [
+            [int(n) for n in row.strip().split()]
+            for row in block.split('\n')
+        ]
+        self.lines = [set(row) for row in rows]
+        for i in range(5):
+            self.lines.append({row[i] for row in rows})
+
+    @property
+    def numbers(self):
+        numbers = set()
+        for line in self.lines:
+            numbers |= line
+        return numbers
+
+    @property
+    def bingo(self):
+        for line in self.lines:
+            if line < numbers_called:
+                return True
+        return False
+
+    @property
+    def sum_of_unmarked(self):
+        unmarked = self.numbers - numbers_called
+        return sum(unmarked)
 
 
 if __name__ == "__main__":
