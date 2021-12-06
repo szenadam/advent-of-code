@@ -46,12 +46,9 @@ def part_one(data):
     decreases = 0
 
     for previous, current in zip(data, data[1:]):
-        a = previous
-        b = current
-
-        if a < b:
+        if previous < current:
             increases += 1
-        elif a > b:
+        elif previous > current:
             decreases += 1
 
     print(increases, decreases)
