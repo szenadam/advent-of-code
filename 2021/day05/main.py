@@ -71,8 +71,12 @@ def calulate_line_coordinates(coords):
     result_coords = []
     result_coords.append(coords[0])
 
+
+    # diagonal
+    if (start_x == end_x and start_y == end_y) or (start_x == end_y and start_y == end_x):
+        raise NotImplementedError()
     # X coordinates are equal so it is a vertical line
-    if start_x == end_x:
+    elif start_x == end_x:
         delta = abs(start_y - end_y) - 1
         if start_y > end_y:
             for i in range(start_y - 1, end_y, -1):
@@ -89,6 +93,8 @@ def calulate_line_coordinates(coords):
         else:
             for i in range(start_x + 1, end_x):
                 result_coords.append((i, start_y))
+    else:
+        raise ValueError('somethings fucky')
     result_coords.append(coords[1])
 
     return result_coords
