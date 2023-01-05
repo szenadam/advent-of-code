@@ -5,17 +5,35 @@ def main():
     total_score = 0
     for l in ll:
         op, my = l.split(' ')
-        print(op, my)
+        # print(op, my)
         score = decide_score(op, my)
-        print(score)
+        # print(score)
         hand_score = decide_hand_score(my)
-        print(hand_score)
+        # print(hand_score)
         round_score = score + hand_score
-        print(round_score)
+        # print(round_score)
         total_score += round_score
     print(total_score)
+
+    part_two_result = decide_adjusted_points(ll)
+    print(part_two_result)
     return 0
 
+def decide_adjusted_points(rounds):
+    adjusted_points = {
+        "A X": 0 + 3,
+        "A Y": 3 + 1,
+        "A Z": 6 + 2,
+        "B X": 0 + 1,
+        "B Y": 3 + 2,
+        "B Z": 6 + 3,
+        "C X": 0 + 2,
+        "C Y": 3 + 3,
+        "C Z": 6 + 1,
+    }
+
+    scores = [adjusted_points[round] for round in rounds]
+    return sum(scores)
 
 def decide_hand_score(my):
     if my == 'X': # rock
