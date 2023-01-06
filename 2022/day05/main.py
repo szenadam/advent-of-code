@@ -1,5 +1,3 @@
-import re
-
 def main():
     with open('./input.txt', 'r') as f:
         ll = f.readlines()
@@ -8,6 +6,7 @@ def main():
     part_two(ll)
 
     return 0
+
 
 def part_two(ll):
     orders = []
@@ -32,9 +31,10 @@ def part_two(ll):
     # print(orders)
     # print(stacks)
     for o in orders:
-        matches = re.search(r'move (\d+) from (\d+) to (\d+)\n?', o)
-        num, from_stack, to_stack = int(matches.group(1)), int(matches.group(2))-1, int(matches.group(3))-1
-        # print(num, from_stack, to_stack)
+        _, num, _, from_stack, _, to_stack = o.split(' ')
+        num = int(num)
+        from_stack = int(from_stack) - 1
+        to_stack = int(to_stack) - 1
         stack_slice = stacks[from_stack][:num]
         stacks[from_stack] = stacks[from_stack][num:]
         stacks[to_stack] = stack_slice + stacks[to_stack]
@@ -43,6 +43,7 @@ def part_two(ll):
     for s in stacks:
         result.append(s[0])
     print(''.join(result))
+
 
 def part_one(ll):
     orders = []
@@ -67,8 +68,10 @@ def part_one(ll):
     # print(orders)
     # print(stacks)
     for o in orders:
-        matches = re.search(r'move (\d+) from (\d+) to (\d+)\n?', o)
-        num, from_stack, to_stack = int(matches.group(1)), int(matches.group(2))-1, int(matches.group(3))-1
+        _, num, _, from_stack, _, to_stack = o.split(' ')
+        num = int(num)
+        from_stack = int(from_stack) - 1
+        to_stack = int(to_stack) - 1
         # print(num, from_stack, to_stack)
         for i in range(num):
             if len(stacks[from_stack]) == 0:
@@ -79,6 +82,7 @@ def part_one(ll):
     for s in stacks:
         result.append(s[0])
     print(''.join(result))
+
 
 if __name__ == "__main__":
     main()
