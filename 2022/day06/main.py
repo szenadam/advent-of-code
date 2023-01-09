@@ -24,6 +24,10 @@ class Day6Tests(unittest.TestCase):
     def test_four_char_uniqness(self):
         inp = 'abcd'
         self.assertTrue(is_unique(inp))
+        inp = 'aacd'
+        self.assertFalse(is_unique(inp))
+        inp = 'abca'
+        self.assertFalse(is_unique(inp))
 
     def test_get_marker(self):
         inp = 'mjqjpqmgbljsphdztnvjfqwrcgsmlb'
@@ -55,7 +59,7 @@ def main():
         data = f.read().strip()
     print(get_marker(data))
     print(get_message_marker(data))
-    # unittest.main()
+    unittest.main()
     return 0
 
 
